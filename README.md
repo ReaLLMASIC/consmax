@@ -21,6 +21,13 @@ traditional softmax hardware in 16nm FinFET technology.
 
 ---
 
+## Publication Links
+
+* [ICCAD 2024 Publication](paper/ICCAD_2024_ConSmax.pdf)
+* Preprint Link: https://arxiv.org/abs/2402.10930
+
+---
+
 ## Citation
 If you find our code useful for your research, please consider citing:
 
@@ -43,14 +50,23 @@ If you find our code useful for your research, please consider citing:
 
 ### Software Evaluation
 
-```
+
+Assuming PyTorch GPU training and NanoGPT dependencies are installed on your
+enviroment:
+
+```sh
 git clone https://github.com/ReaLLMASIC/nanogpt.git
 cd nanogpt/
 
 cd data/wikitext103
-bash get_dataset.sh
+python3 get_wikitext103.py
+python3 prepare.py -t input.txt --method tiktoken
 
 cd ../../
 
+# Run with ConSmax
 python3 train.py --softmax_variant_attn consmax_v2 --dataset wikitext103 --max_sample_tokens 256 --max_iters 30000 --use_post_ln
+
+# Run Softmax for Reference
+python3 train.py --dataset wikitext103 --max_sample_tokens 256 --max_iters 30000 --use_post_ln
 ```
